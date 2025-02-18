@@ -19,7 +19,7 @@ variable "regions" {
     description = "The list of regions to deploy resources"
     default = {
         EU = {
-            region = "europe-west9"
+            region = "europe-west4"
         },
     }
 }

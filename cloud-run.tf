@@ -5,7 +5,7 @@ resource "google_cloud_run_v2_service" "default" {
   ingress = "INGRESS_TRAFFIC_ALL"
   template {
     containers {
-      image = "docker.io/pandeo/ft-iac:ta"
+      image = "docker.io/pandeo/ft-iac:a"
       env {
         name = "MYSQL_HOST"
         value = google_sql_database_instance.instance.private_ip_address
@@ -21,6 +21,18 @@ resource "google_cloud_run_v2_service" "default" {
       env {
         name = "MYSQL_DATABASE"
         value = google_sql_database.database.name
+      }
+      env {
+        name = "REDIS_HOST"
+        value = google_redis_instance.cache.host
+      }
+      env {
+        name = "REDIS_PORT"
+        value = google_redis_instance.cache.port
+      }
+      env {
+        name = "SESSION_SECRET"
+        value = random_string.session_secret.result
       }
       env {
         name = "NODE_ENV"
@@ -39,14 +51,20 @@ resource "google_cloud_run_v2_service" "default" {
       }
     }
     scaling {
-      min_instance_count = 2
-      max_instance_count = 2
+      min_instance_count = 3
+      max_instance_count = 3
     }
     vpc_access{
       network_interfaces {
         network = google_compute_network.vpc_network.name
-        subnetwork = google_compute_subnetwork.vpc_subnet.name
       }
     }
   }
+}
+
+
+resource "random_string" "session_secret" {
+  length           = 16
+  special          = true
+  override_special = "/@£$"
 }
