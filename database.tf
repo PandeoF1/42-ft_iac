@@ -9,14 +9,14 @@ resource "google_sql_database_instance" "instance" {
   region           = var.regions[var.zone].region
   database_version = "MYSQL_8_0"
   settings {
-    tier = "db-f1-micro"
+    tier = var.cloud_sql_size[var.size].tier
     ip_configuration {
       ipv4_enabled    = true
       private_network = google_compute_network.vpc_network.self_link
       enable_private_path_for_google_cloud_services = true
     }
   }
-  
+
   deletion_protection  = var.deletion_protection
 }
 

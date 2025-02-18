@@ -28,9 +28,13 @@ variable "size" {
     type = string
     description = "The size of the instance"
     default = "small"
+    validation {
+        condition = contains(["small", "medium", "large"], var.size)
+        error_message = "Size must be small, medium or large"
+    }
 }
 
-variable "sizes" {
+variable "cloud_run_size" {
     type = map(object({
         cpu = string
         memory = string
@@ -50,8 +54,26 @@ variable "sizes" {
             memory = "2048Mi"
         }
     }
-  
 }
+
+variable "cloud_sql_size" {
+    type = map(object({
+        tier = string
+    }))
+    description = "The sizes of the database instances"
+    default = {
+        small  = {
+            tier = "db-f1-micro"
+        }
+        medium = {
+            tier = "db-g1-small"
+        }
+        large = {
+            tier = "db-n1-standard-1"
+        }
+    }
+}
+
 
 variable "replicas" {
     type = number
