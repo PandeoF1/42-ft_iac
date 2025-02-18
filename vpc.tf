@@ -1,0 +1,31 @@
+resource "google_compute_network" "vpc_network" {
+  name = var.name
+}
+
+resource "google_compute_subnetwork" "vpc_subnet" {
+  name          = "${var.name}-subnet"
+  ip_cidr_range = "10.2.0.0/20"
+  region        = var.regions[var.zone].region
+  network       = google_compute_network.vpc_network.self_link
+}
+
+resource "google_compute_router" "vpc_router" {
+  name    = "${var.name}-router"
+  region  = var.regions[var.zone].region
+  network = google_compute_network.vpc_network.self_link
+}
+
+resource "google_compute_global_address" "private_ip_address" {
+    name          = "${var.name}-private-ip"
+    purpose       = "VPC_PEERING"
+    address_type  = "INTERNAL"
+    prefix_length = 20
+    network       = google_compute_network.vpc_network.self_link
+}
+
+resource "google_service_networking_connection" "private_vpc_connection" {
+    provider                = google-beta
+    network                 = google_compute_network.vpc_network.self_link
+    service                 = "servicenetworking.googleapis.com"
+    reserved_peering_ranges = [google_compute_global_address.private_ip_address.name]
+}

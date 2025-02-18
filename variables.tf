@@ -19,7 +19,7 @@ variable "regions" {
     description = "The list of regions to deploy resources"
     default = {
         EU = {
-            region = "eu-west-3"
+            region = "europe-west9"
         },
     }
 }
@@ -38,16 +38,16 @@ variable "sizes" {
     description = "The sizes of the instances"
     default = {
         small  = {
-            cpu = "0.5"
-            memory = "256Mi"
-        }
-        medium = {
             cpu = "1"
             memory = "512Mi"
         }
+        medium = {
+            cpu = "1"
+            memory = "1024Mi"
+        }
         large = {
             cpu = "2"
-            memory = "1024Mi"
+            memory = "2048Mi"
         }
     }
   
@@ -57,4 +57,15 @@ variable "replicas" {
     type = number
     description = "The number of replicas to deploy"
     default = 2
+}
+
+variable "project_id" {
+    type = string
+    description = "The project id"
+}
+
+variable "deletion_protection" {
+    type = bool
+    description = "The deletion protection"
+    default = true
 }
