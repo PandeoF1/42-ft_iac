@@ -2,6 +2,7 @@ resource "google_sql_database" "database" {
   name     = var.name
   instance = google_sql_database_instance.instance.name
   deletion_policy = "ABANDON"
+  depends_on = [google_compute_network.vpc_network, google_service_networking_connection.private_vpc_connection]
 }
 
 resource "google_sql_database_instance" "instance" {
@@ -22,6 +23,7 @@ resource "google_sql_database_instance" "instance" {
     availability_type = var.availability_type
   }
   deletion_protection  = var.deletion_protection
+  depends_on = [google_compute_network.vpc_network, google_service_networking_connection.private_vpc_connection]
 }
 
 resource "random_string" "random" {

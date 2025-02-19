@@ -69,6 +69,7 @@ resource "google_cloud_run_v2_service" "default" {
       }
     }
   }
+  depends_on = [google_compute_network.vpc_network, google_service_networking_connection.private_vpc_connection]
 }
 
 resource "google_cloud_run_service_iam_binding" "public_access" {
