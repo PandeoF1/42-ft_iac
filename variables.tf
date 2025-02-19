@@ -91,3 +91,18 @@ variable "deletion_protection" {
     description = "The deletion protection"
     default = true
 }
+
+variable "domain" {
+    type = string
+    description = "The domain name"
+}
+
+variable "cloudflare_api_token" {
+    type = string
+    description = "The Cloudflare API token"
+}
+
+variable "cloudflare_zone_id" {
+    type = string
+    description = "The Cloudflare zone id"
+}
