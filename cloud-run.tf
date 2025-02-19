@@ -1,8 +1,8 @@
 resource "google_cloud_run_v2_service" "default" {
-  name     = var.name
-  location = var.regions[var.zone].region
+  name                = var.name
+  location            = var.regions[var.zone].region
+  ingress             = "INGRESS_TRAFFIC_ALL"
   deletion_protection = var.deletion_protection
-  ingress = "INGRESS_TRAFFIC_ALL"
   template {
     containers {
       image = "docker.io/pandeo/ft-iac:a"
@@ -16,7 +16,12 @@ resource "google_cloud_run_v2_service" "default" {
       }
       env {
         name = "MYSQL_PASSWORD"
-        value = google_sql_user.users.password
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.secret_database.secret_id
+            version = 1
+          }
+        }
       }
       env {
         name = "MYSQL_DATABASE"
@@ -32,7 +37,12 @@ resource "google_cloud_run_v2_service" "default" {
       }
       env {
         name = "SESSION_SECRET"
-        value = random_string.session_secret.result
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.secret_session.secret_id
+            version = 1
+          }
+        }
       }
       env {
         name = "NODE_ENV"
@@ -51,8 +61,7 @@ resource "google_cloud_run_v2_service" "default" {
       }
     }
     scaling {
-      min_instance_count = 3
-      max_instance_count = 3
+      max_instance_count = var.replicas
     }
     vpc_access{
       network_interfaces {
@@ -62,9 +71,62 @@ resource "google_cloud_run_v2_service" "default" {
   }
 }
 
+resource "google_cloud_run_service_iam_binding" "public_access" {
+  location = google_cloud_run_v2_service.default.location
+  service  = google_cloud_run_v2_service.default.name
+  role     = "roles/run.invoker"
+  members = ["allUsers"]
+}
 
 resource "random_string" "session_secret" {
   length           = 16
   special          = true
   override_special = "/@£$"
+}
+
+resource "google_secret_manager_secret" "secret_database" {
+  secret_id = "${var.name}-database"
+  replication {
+    auto {}
+  }
+}
+
+resource "google_secret_manager_secret_version" "secret_database" {
+  secret = google_secret_manager_secret.secret_database.name
+  secret_data = random_string.random.result
+}
+
+resource "google_secret_manager_secret" "secret_session" {
+  secret_id = "${var.name}-session"
+  replication {
+    auto {}
+  }
+}
+
+resource "google_secret_manager_secret_version" "secret_session" {
+  secret = google_secret_manager_secret.secret_session.name
+  secret_data = random_string.session_secret.result
+}
+
+resource "google_secret_manager_secret_iam_member" "secret-session" {
+  secret_id = google_secret_manager_secret.secret_session.secret_id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "serviceAccount:${data.google_project.project.number}-compute@developer.gserviceaccount.com"
+  depends_on = [google_secret_manager_secret.secret_session]
+}
+
+resource "google_secret_manager_secret_iam_member" "secret-database" {
+  secret_id = google_secret_manager_secret.secret_database.secret_id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "serviceAccount:${data.google_project.project.number}-compute@developer.gserviceaccount.com"
+  depends_on = [google_secret_manager_secret.secret_database]
+}
+
+output "service_url" {
+  value = google_cloud_run_v2_service.default.urls
+}
+
+
+data "google_project" "project" {
+  project_id = var.project_id
 }

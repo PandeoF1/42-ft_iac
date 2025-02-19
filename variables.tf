@@ -97,12 +97,18 @@ variable "domain" {
     description = "The domain name"
 }
 
-variable "cloudflare_api_token" {
-    type = string
-    description = "The Cloudflare API token"
+variable "backups" {
+    type = bool
+    description = "Enable backups"
+    default = true
 }
 
-variable "cloudflare_zone_id" {
+variable "availability_type" {
     type = string
-    description = "The Cloudflare zone id"
+    description = "The availability type"
+    default = "ZONAL"
+    validation {
+        condition = contains(["ZONAL", "REGIONAL"], var.availability_type)
+        error_message = "Availability type must be ZONAL or REGIONAL"
+    }
 }
