@@ -8,15 +8,16 @@ resource "google_sql_database" "database" {
 resource "google_sql_database_instance" "instance" {
   name             = var.name
   region           = var.regions[var.zone].region
-  database_version = "MYSQL_8_0"
+  database_version = "MYSQL_8_4"
   settings {
+    edition = "ENTERPRISE"
     backup_configuration {
       enabled = var.backups
     }
 
     tier = var.cloud_sql_size[var.size].tier
     ip_configuration {
-      ipv4_enabled    = true
+      ipv4_enabled    = false
       private_network = google_compute_network.vpc_network.self_link
       enable_private_path_for_google_cloud_services = true
     }
