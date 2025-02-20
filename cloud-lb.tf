@@ -39,6 +39,16 @@ resource "google_compute_region_network_endpoint_group" "default" {
   }
 }
 
+resource "cloudflare_dns_record" "lb" {
+  zone_id = var.cloudflare_zone_id
+  comment = "Domain verification record"
+  content = module.lb-http.external_ip
+  name = var.domain
+  proxied = false
+  ttl = 1
+  type = "A"
+}
+
 output "external_url" {
   value = module.lb-http.external_ip
 }

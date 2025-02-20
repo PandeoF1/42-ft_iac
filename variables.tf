@@ -112,3 +112,18 @@ variable "availability_type" {
         error_message = "Availability type must be ZONAL or REGIONAL"
     }
 }
+
+variable "docker_image" {
+    type = string
+    description = "The docker image"
+}
+
+variable "cloudflare_api_token" {
+    type = string
+    description = "The Cloudflare API token"
+}
+
+variable "cloudflare_zone_id" {
+    type = string
+    description = "The Cloudflare zone id"
+}

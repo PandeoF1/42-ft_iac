@@ -5,7 +5,7 @@ resource "google_cloud_run_v2_service" "default" {
   deletion_protection = var.deletion_protection
   template {
     containers {
-      image = "docker.io/pandeo/ft-iac:a"
+      image = var.docker_image
       env {
         name = "MYSQL_HOST"
         value = google_sql_database_instance.instance.private_ip_address
