@@ -123,16 +123,16 @@ resource "google_secret_manager_secret_iam_member" "secret-database" {
   depends_on = [google_secret_manager_secret.secret_database]
 }
 
-resource "google_cloud_run_domain_mapping" "default" {
-  location = var.regions[var.zone].region
-  name     = var.domain
-  metadata {
-    namespace = var.project_id
-  }
-  spec {
-    route_name = google_cloud_run_v2_service.default.name
-  }
-}
+# resource "google_cloud_run_domain_mapping" "default" {
+#   location = var.regions[var.zone].region
+#   name     = var.domain
+#   metadata {
+#     namespace = var.project_id
+#   }
+#   spec {
+#     route_name = google_cloud_run_v2_service.default.name
+#   }
+# }
 
 output "service_url" {
   value = google_cloud_run_v2_service.default.urls
