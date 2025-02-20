@@ -112,3 +112,8 @@ variable "availability_type" {
         error_message = "Availability type must be ZONAL or REGIONAL"
     }
 }
+
+variable "docker_image" {
+    type = string
+    description = "The docker image"
+}
