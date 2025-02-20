@@ -16,9 +16,6 @@ module "lb-http" {
       groups = [
         {
           group = google_compute_region_network_endpoint_group.default.id
-        },
-        {
-            
         }
       ]
       enable_cdn = false
