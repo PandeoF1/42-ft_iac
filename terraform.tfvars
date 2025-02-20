@@ -1,7 +1,7 @@
 name                = "ft-iac"
 zone                = "EU"
 size                = "small"
-replicas            = 1
+replicas            = 2
 project_id          = "pandeo-423613"
 deletion_protection = false
 domain              = "ft-iac.pandeo.fr"

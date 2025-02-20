@@ -1,17 +1,20 @@
 resource "google_cloud_run_v2_service" "default" {
-  name                = var.name
+  for_each = { for i in range(var.replicas) : i => i }
+
+  name                = "${var.name}-${each.key}"
   location            = var.regions[var.zone].region
   ingress             = "INGRESS_TRAFFIC_ALL"
   deletion_protection = var.deletion_protection
+
   template {
     containers {
       image = "docker.io/pandeo/ft-iac:a"
       env {
-        name = "MYSQL_HOST"
+        name  = "MYSQL_HOST"
         value = google_sql_database_instance.instance.private_ip_address
       }
       env {
-        name = "MYSQL_USER"
+        name  = "MYSQL_USER"
         value = google_sql_user.users.name
       }
       env {
@@ -24,15 +27,15 @@ resource "google_cloud_run_v2_service" "default" {
         }
       }
       env {
-        name = "MYSQL_DATABASE"
+        name  = "MYSQL_DATABASE"
         value = google_sql_database.database.name
       }
       env {
-        name = "REDIS_HOST"
+        name  = "REDIS_HOST"
         value = google_redis_instance.cache.host
       }
       env {
-        name = "REDIS_PORT"
+        name  = "REDIS_PORT"
         value = google_redis_instance.cache.port
       }
       env {
@@ -45,7 +48,7 @@ resource "google_cloud_run_v2_service" "default" {
         }
       }
       env {
-        name = "NODE_ENV"
+        name  = "NODE_ENV"
         value = "production"
       }
 
@@ -60,23 +63,25 @@ resource "google_cloud_run_v2_service" "default" {
         }
       }
     }
-    scaling {
-      max_instance_count = var.replicas
-    }
-    vpc_access{
+
+    vpc_access {
       network_interfaces {
         network = google_compute_network.vpc_network.name
       }
     }
   }
+
   depends_on = [google_compute_network.vpc_network, google_service_networking_connection.private_vpc_connection]
 }
 
+
 resource "google_cloud_run_service_iam_binding" "public_access" {
-  location = google_cloud_run_v2_service.default.location
-  service  = google_cloud_run_v2_service.default.name
+  for_each = google_cloud_run_v2_service.default
+
+  location = each.value.location
+  service  = each.value.name
   role     = "roles/run.invoker"
-  members = ["allUsers"]
+  members  = ["allUsers"]
 }
 
 resource "random_string" "session_secret" {
@@ -134,8 +139,8 @@ resource "google_secret_manager_secret_iam_member" "secret-database" {
 #   }
 # }
 
-output "service_url" {
-  value = google_cloud_run_v2_service.default.urls
+output "service_urls" {
+  value = { for k, v in google_cloud_run_v2_service.default : k => v.uri }
 }
 
 

@@ -14,12 +14,8 @@ module "lb-http" {
     default = {
       protocol = "HTTP"
       groups = [
-        {
-          group = google_compute_region_network_endpoint_group.default.id
-        },
-        {
-            
-        }
+        for service in google_compute_region_network_endpoint_group.default :
+        { group = service.id }
       ]
       enable_cdn = false
       iap_config = {
@@ -33,12 +29,14 @@ module "lb-http" {
 }
 
 resource "google_compute_region_network_endpoint_group" "default" {
-  provider              = google-beta
-  name                  = var.name
+  for_each              = google_cloud_run_v2_service.default
+
+  name                  = "${var.name}-${each.key}"
   network_endpoint_type = "SERVERLESS"
   region                = var.regions[var.zone].region
+
   cloud_run {
-    service = google_cloud_run_v2_service.default.name
+    service = each.value.name
   }
 }
 
