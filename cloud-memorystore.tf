@@ -10,3 +10,7 @@ resource "google_redis_instance" "cache" {
   connect_mode       = "PRIVATE_SERVICE_ACCESS"
   depends_on = [google_compute_network.vpc_network, google_service_networking_connection.private_vpc_connection]
 }
+
+output "redis_host" {
+  value = "${google_redis_instance.cache.host}:${google_redis_instance.cache.port}"
+}

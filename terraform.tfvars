@@ -6,6 +6,6 @@ project_id          = "pandeo-423613"
 deletion_protection = false
 domain              = "ft-iac.pandeo.fr"
 cloudflare_zone_id  = "5291d9d7f423a1902129008a519239bf"
-docker_image        = "docker.io/pandeo/ft-iac:a"
+docker_image        = "docker.io/pandeo/ft-iac:27595"
 backups             = false
 availability_type   = "ZONAL"

@@ -1,0 +1,602 @@
+{
+    "displayName": "${var.name}",
+    "dashboardFilters": [],
+    "gridLayout": {
+        "columns": "2",
+        "widgets": [
+            {
+                "title": "Request Count",
+                "computedId": "13066930-5b5e-4c79-90c9-d92a43640fa2",
+                "id": "",
+                "xyChart": {
+                    "chartOptions": {
+                        "displayHorizontal": false,
+                        "mode": "COLOR",
+                        "showLegend": false
+                    },
+                    "dataSets": [
+                        {
+                            "breakdowns": [],
+                            "dimensions": [],
+                            "legendTemplate": "",
+                            "measures": [],
+                            "minAlignmentPeriod": "60s",
+                            "plotType": "STACKED_BAR",
+                            "targetAxis": "Y1",
+                            "timeSeriesQuery": {
+                                "outputFullDuration": false,
+                                "timeSeriesFilter": {
+                                    "aggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "crossSeriesReducer": "REDUCE_COUNT",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_RATE"
+                                    },
+                                    "filter": "metric.type=\"run.googleapis.com/request_count\" resource.type=\"cloud_run_revision\"",
+                                    "secondaryAggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_NONE"
+                                    }
+                                },
+                                "unitOverride": "1"
+                            }
+                        }
+                    ],
+                    "thresholds": [],
+                    "timeshiftDuration": "0s",
+                    "yAxis": {
+                        "label": "",
+                        "scale": "LINEAR"
+                    }
+                }
+            },
+            {
+                "title": "Request Latency",
+                "computedId": "28663fae-9d5b-42dc-83b6-0a607931ddd4",
+                "id": "",
+                "xyChart": {
+                    "chartOptions": {
+                        "displayHorizontal": false,
+                        "mode": "COLOR",
+                        "showLegend": false
+                    },
+                    "dataSets": [
+                        {
+                            "breakdowns": [],
+                            "dimensions": [],
+                            "legendTemplate": "",
+                            "measures": [],
+                            "minAlignmentPeriod": "60s",
+                            "plotType": "LINE",
+                            "targetAxis": "Y1",
+                            "timeSeriesQuery": {
+                                "outputFullDuration": false,
+                                "timeSeriesFilter": {
+                                    "aggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "crossSeriesReducer": "REDUCE_PERCENTILE_95",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_DELTA"
+                                    },
+                                    "filter": "metric.type=\"run.googleapis.com/request_latencies\" resource.type=\"cloud_run_revision\"",
+                                    "secondaryAggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_NONE"
+                                    }
+                                },
+                                "unitOverride": "ms"
+                            }
+                        },
+                        {
+                            "breakdowns": [],
+                            "dimensions": [],
+                            "legendTemplate": "",
+                            "measures": [],
+                            "minAlignmentPeriod": "60s",
+                            "plotType": "LINE",
+                            "targetAxis": "Y1",
+                            "timeSeriesQuery": {
+                                "outputFullDuration": false,
+                                "timeSeriesFilter": {
+                                    "aggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "crossSeriesReducer": "REDUCE_PERCENTILE_05",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_DELTA"
+                                    },
+                                    "filter": "metric.type=\"run.googleapis.com/request_latencies\" resource.type=\"cloud_run_revision\"",
+                                    "secondaryAggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_NONE"
+                                    }
+                                },
+                                "unitOverride": "ms"
+                            }
+                        },
+                        {
+                            "breakdowns": [],
+                            "dimensions": [],
+                            "legendTemplate": "",
+                            "measures": [],
+                            "minAlignmentPeriod": "60s",
+                            "plotType": "LINE",
+                            "targetAxis": "Y1",
+                            "timeSeriesQuery": {
+                                "outputFullDuration": false,
+                                "timeSeriesFilter": {
+                                    "aggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "crossSeriesReducer": "REDUCE_PERCENTILE_50",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_DELTA"
+                                    },
+                                    "filter": "metric.type=\"run.googleapis.com/request_latencies\" resource.type=\"cloud_run_revision\"",
+                                    "secondaryAggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_NONE"
+                                    }
+                                },
+                                "unitOverride": "ms"
+                            }
+                        },
+                        {
+                            "breakdowns": [],
+                            "dimensions": [],
+                            "legendTemplate": "",
+                            "measures": [],
+                            "minAlignmentPeriod": "60s",
+                            "plotType": "LINE",
+                            "targetAxis": "Y1",
+                            "timeSeriesQuery": {
+                                "outputFullDuration": false,
+                                "timeSeriesFilter": {
+                                    "aggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "crossSeriesReducer": "REDUCE_MAX",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_PERCENTILE_99"
+                                    },
+                                    "filter": "metric.type=\"run.googleapis.com/request_latencies\" resource.type=\"cloud_run_revision\"",
+                                    "secondaryAggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_NONE"
+                                    }
+                                },
+                                "unitOverride": "ms"
+                            }
+                        }
+                    ],
+                    "thresholds": [],
+                    "timeshiftDuration": "0s",
+                    "yAxis": {
+                        "label": "",
+                        "scale": "LINEAR"
+                    }
+                }
+            },
+            {
+                "title": "Billable Instance Time",
+                "computedId": "f517ab48-1847-43a4-be38-32d749e751d5",
+                "id": "",
+                "xyChart": {
+                    "chartOptions": {
+                        "displayHorizontal": false,
+                        "mode": "COLOR",
+                        "showLegend": false
+                    },
+                    "dataSets": [
+                        {
+                            "breakdowns": [],
+                            "dimensions": [],
+                            "legendTemplate": "",
+                            "measures": [],
+                            "minAlignmentPeriod": "60s",
+                            "plotType": "LINE",
+                            "targetAxis": "Y1",
+                            "timeSeriesQuery": {
+                                "outputFullDuration": false,
+                                "timeSeriesFilter": {
+                                    "aggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "crossSeriesReducer": "REDUCE_SUM",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_RATE"
+                                    },
+                                    "filter": "metric.type=\"run.googleapis.com/container/billable_instance_time\" resource.type=\"cloud_run_revision\"",
+                                    "secondaryAggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_NONE"
+                                    }
+                                },
+                                "unitOverride": "s"
+                            }
+                        }
+                    ],
+                    "thresholds": [],
+                    "timeshiftDuration": "0s",
+                    "yAxis": {
+                        "label": "",
+                        "scale": "LINEAR"
+                    }
+                }
+            },
+            {
+                "title": "Container CPU Allocation",
+                "computedId": "46257182-3881-4683-b553-84e9861965cf",
+                "id": "",
+                "xyChart": {
+                    "chartOptions": {
+                        "displayHorizontal": false,
+                        "mode": "COLOR",
+                        "showLegend": false
+                    },
+                    "dataSets": [
+                        {
+                            "breakdowns": [],
+                            "dimensions": [],
+                            "legendTemplate": "",
+                            "measures": [],
+                            "minAlignmentPeriod": "60s",
+                            "plotType": "LINE",
+                            "targetAxis": "Y1",
+                            "timeSeriesQuery": {
+                                "outputFullDuration": false,
+                                "timeSeriesFilter": {
+                                    "aggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "crossSeriesReducer": "REDUCE_SUM",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_RATE"
+                                    },
+                                    "filter": "metric.type=\"run.googleapis.com/container/cpu/allocation_time\" resource.type=\"cloud_run_revision\"",
+                                    "secondaryAggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_NONE"
+                                    }
+                                },
+                                "unitOverride": "s"
+                            }
+                        }
+                    ],
+                    "thresholds": [],
+                    "timeshiftDuration": "0s",
+                    "yAxis": {
+                        "label": "",
+                        "scale": "LINEAR"
+                    }
+                }
+            },
+            {
+                "title": "Container Memory Allocation",
+                "computedId": "adea37c9-8a20-43ad-923b-b0b2aeb01fd4",
+                "id": "",
+                "xyChart": {
+                    "chartOptions": {
+                        "displayHorizontal": false,
+                        "mode": "COLOR",
+                        "showLegend": false
+                    },
+                    "dataSets": [
+                        {
+                            "breakdowns": [],
+                            "dimensions": [],
+                            "legendTemplate": "",
+                            "measures": [],
+                            "minAlignmentPeriod": "60s",
+                            "plotType": "LINE",
+                            "targetAxis": "Y1",
+                            "timeSeriesQuery": {
+                                "outputFullDuration": false,
+                                "timeSeriesFilter": {
+                                    "aggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "crossSeriesReducer": "REDUCE_SUM",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_RATE"
+                                    },
+                                    "filter": "metric.type=\"run.googleapis.com/container/memory/allocation_time\" resource.type=\"cloud_run_revision\"",
+                                    "secondaryAggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_NONE"
+                                    }
+                                },
+                                "unitOverride": "GiBy.s"
+                            }
+                        }
+                    ],
+                    "thresholds": [],
+                    "timeshiftDuration": "0s",
+                    "yAxis": {
+                        "label": "",
+                        "scale": "LINEAR"
+                    }
+                }
+            },
+            {
+                "title": "Container CPU Utilization",
+                "computedId": "18b810f2-4199-481c-8a23-39737c419bff",
+                "id": "",
+                "xyChart": {
+                    "chartOptions": {
+                        "displayHorizontal": false,
+                        "mode": "COLOR",
+                        "showLegend": false
+                    },
+                    "dataSets": [
+                        {
+                            "breakdowns": [],
+                            "dimensions": [],
+                            "legendTemplate": "",
+                            "measures": [],
+                            "minAlignmentPeriod": "60s",
+                            "plotType": "LINE",
+                            "targetAxis": "Y1",
+                            "timeSeriesQuery": {
+                                "outputFullDuration": false,
+                                "timeSeriesFilter": {
+                                    "aggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "crossSeriesReducer": "REDUCE_PERCENTILE_95",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_DELTA"
+                                    },
+                                    "filter": "metric.type=\"run.googleapis.com/container/cpu/utilizations\" resource.type=\"cloud_run_revision\"",
+                                    "secondaryAggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_NONE"
+                                    }
+                                },
+                                "unitOverride": "10^2.%"
+                            }
+                        },
+                        {
+                            "breakdowns": [],
+                            "dimensions": [],
+                            "legendTemplate": "",
+                            "measures": [],
+                            "minAlignmentPeriod": "60s",
+                            "plotType": "LINE",
+                            "targetAxis": "Y1",
+                            "timeSeriesQuery": {
+                                "outputFullDuration": false,
+                                "timeSeriesFilter": {
+                                    "aggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "crossSeriesReducer": "REDUCE_PERCENTILE_05",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_DELTA"
+                                    },
+                                    "filter": "metric.type=\"run.googleapis.com/container/cpu/utilizations\" resource.type=\"cloud_run_revision\"",
+                                    "secondaryAggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_NONE"
+                                    }
+                                },
+                                "unitOverride": "10^2.%"
+                            }
+                        },
+                        {
+                            "breakdowns": [],
+                            "dimensions": [],
+                            "legendTemplate": "",
+                            "measures": [],
+                            "minAlignmentPeriod": "60s",
+                            "plotType": "LINE",
+                            "targetAxis": "Y1",
+                            "timeSeriesQuery": {
+                                "outputFullDuration": false,
+                                "timeSeriesFilter": {
+                                    "aggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "crossSeriesReducer": "REDUCE_PERCENTILE_50",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_DELTA"
+                                    },
+                                    "filter": "metric.type=\"run.googleapis.com/container/cpu/utilizations\" resource.type=\"cloud_run_revision\"",
+                                    "secondaryAggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_NONE"
+                                    }
+                                },
+                                "unitOverride": "10^2.%"
+                            }
+                        },
+                        {
+                            "breakdowns": [],
+                            "dimensions": [],
+                            "legendTemplate": "",
+                            "measures": [],
+                            "minAlignmentPeriod": "60s",
+                            "plotType": "LINE",
+                            "targetAxis": "Y1",
+                            "timeSeriesQuery": {
+                                "outputFullDuration": false,
+                                "timeSeriesFilter": {
+                                    "aggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "crossSeriesReducer": "REDUCE_MAX",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_PERCENTILE_99"
+                                    },
+                                    "filter": "metric.type=\"run.googleapis.com/container/cpu/utilizations\" resource.type=\"cloud_run_revision\"",
+                                    "secondaryAggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_NONE"
+                                    }
+                                },
+                                "unitOverride": "10^2.%"
+                            }
+                        }
+                    ],
+                    "thresholds": [],
+                    "timeshiftDuration": "0s",
+                    "yAxis": {
+                        "label": "",
+                        "scale": "LINEAR"
+                    }
+                }
+            },
+            {
+                "title": "Container Memory Utilization",
+                "computedId": "c5b40fcd-6fcc-4a4c-9cf2-4b3eaa9d20c3",
+                "id": "",
+                "xyChart": {
+                    "chartOptions": {
+                        "displayHorizontal": false,
+                        "mode": "COLOR",
+                        "showLegend": false
+                    },
+                    "dataSets": [
+                        {
+                            "breakdowns": [],
+                            "dimensions": [],
+                            "legendTemplate": "",
+                            "measures": [],
+                            "minAlignmentPeriod": "60s",
+                            "plotType": "LINE",
+                            "targetAxis": "Y1",
+                            "timeSeriesQuery": {
+                                "outputFullDuration": false,
+                                "timeSeriesFilter": {
+                                    "aggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "crossSeriesReducer": "REDUCE_PERCENTILE_99",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_DELTA"
+                                    },
+                                    "filter": "metric.type=\"run.googleapis.com/container/memory/utilizations\" resource.type=\"cloud_run_revision\"",
+                                    "secondaryAggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_NONE"
+                                    }
+                                },
+                                "unitOverride": "10^2.%"
+                            }
+                        },
+                        {
+                            "breakdowns": [],
+                            "dimensions": [],
+                            "legendTemplate": "",
+                            "measures": [],
+                            "minAlignmentPeriod": "60s",
+                            "plotType": "LINE",
+                            "targetAxis": "Y1",
+                            "timeSeriesQuery": {
+                                "outputFullDuration": false,
+                                "timeSeriesFilter": {
+                                    "aggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "crossSeriesReducer": "REDUCE_PERCENTILE_05",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_DELTA"
+                                    },
+                                    "filter": "metric.type=\"run.googleapis.com/container/memory/utilizations\" resource.type=\"cloud_run_revision\"",
+                                    "secondaryAggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_NONE"
+                                    }
+                                },
+                                "unitOverride": "10^2.%"
+                            }
+                        },
+                        {
+                            "breakdowns": [],
+                            "dimensions": [],
+                            "legendTemplate": "",
+                            "measures": [],
+                            "minAlignmentPeriod": "60s",
+                            "plotType": "LINE",
+                            "targetAxis": "Y1",
+                            "timeSeriesQuery": {
+                                "outputFullDuration": false,
+                                "timeSeriesFilter": {
+                                    "aggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "crossSeriesReducer": "REDUCE_PERCENTILE_50",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_DELTA"
+                                    },
+                                    "filter": "metric.type=\"run.googleapis.com/container/memory/utilizations\" resource.type=\"cloud_run_revision\"",
+                                    "secondaryAggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_NONE"
+                                    }
+                                },
+                                "unitOverride": "10^2.%"
+                            }
+                        },
+                        {
+                            "breakdowns": [],
+                            "dimensions": [],
+                            "legendTemplate": "",
+                            "measures": [],
+                            "minAlignmentPeriod": "60s",
+                            "plotType": "LINE",
+                            "targetAxis": "Y1",
+                            "timeSeriesQuery": {
+                                "outputFullDuration": false,
+                                "timeSeriesFilter": {
+                                    "aggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "crossSeriesReducer": "REDUCE_MAX",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_PERCENTILE_99"
+                                    },
+                                    "filter": "metric.type=\"run.googleapis.com/container/memory/utilizations\" resource.type=\"cloud_run_revision\"",
+                                    "secondaryAggregation": {
+                                        "alignmentPeriod": "60s",
+                                        "groupByFields": [],
+                                        "perSeriesAligner": "ALIGN_NONE"
+                                    }
+                                },
+                                "unitOverride": "10^2.%"
+                            }
+                        }
+                    ],
+                    "thresholds": [],
+                    "timeshiftDuration": "0s",
+                    "yAxis": {
+                        "label": "",
+                        "scale": "LINEAR"
+                    }
+                }
+            },
+            {
+                "title": "Untitled Error Reporting Panel",
+                "computedId": "CEF93D18-5A7F-44A9-8124-DF75A7B3E771",
+                "errorReportingPanel": {
+                    "projectNames": [],
+                    "services": [],
+                    "versions": []
+                }
+            },
+            {
+                "title": "Incidents",
+                "computedId": "4FF836DE-5C75-4C6E-8009-5B59E0983100",
+                "incidentList": {
+                    "groupBy": "ALERT",
+                    "monitoredResources": [],
+                    "policyNames": [
+                        "alertPolicies/16948879258624588899"
+                    ],
+                    "userLabels": {}
+                }
+            }
+        ]
+    }
+}

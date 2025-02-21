@@ -72,9 +72,47 @@ resource "google_cloud_run_v2_service" "default" {
   depends_on = [google_compute_network.vpc_network, google_service_networking_connection.private_vpc_connection]
 }
 
-resource "google_cloud_run_service_iam_binding" "public_access" {
+resource "google_cloud_run_v2_service" "redis_insight" {
+  name                = "${var.name}-redis-insight"
+  location            = var.regions[var.zone].region
+  ingress             = "INGRESS_TRAFFIC_ALL"
+  deletion_protection = var.deletion_protection
+  template {
+    containers {
+      image = "redis/redisinsight"
+      ports {
+        container_port = 5540
+      }
+
+      resources {
+        limits = {
+          cpu    = var.cloud_run_size[var.size].cpu
+          memory = var.cloud_run_size[var.size].memory
+        }
+      }
+    }
+    scaling {
+      max_instance_count = 1
+    }
+    vpc_access{
+      network_interfaces {
+        network = google_compute_network.vpc_network.name
+      }
+    }
+  }
+  depends_on = [google_compute_network.vpc_network, google_service_networking_connection.private_vpc_connection]
+}
+
+resource "google_cloud_run_service_iam_binding" "app_public_access" {
   location = google_cloud_run_v2_service.default.location
   service  = google_cloud_run_v2_service.default.name
+  role     = "roles/run.invoker"
+  members = ["allUsers"]
+}
+
+resource "google_cloud_run_service_iam_binding" "redis_public_access" {
+  location = google_cloud_run_v2_service.redis_insight.location
+  service  = google_cloud_run_v2_service.redis_insight.name
   role     = "roles/run.invoker"
   members = ["allUsers"]
 }
@@ -138,6 +176,9 @@ output "service_url" {
   value = google_cloud_run_v2_service.default.urls
 }
 
+output "redis_insight_url" {
+  value = google_cloud_run_v2_service.redis_insight.urls
+}
 
 data "google_project" "project" {
   project_id = var.project_id
