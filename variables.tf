@@ -127,3 +127,11 @@ variable "cloudflare_zone_id" {
     type = string
     description = "The Cloudflare zone id"
 }
+
+
+variable "notification_channels_url" {
+    type = string
+    description = "The url of the notification channels"
+	default =  "projects/pandeo-423613/notificationChannels/11184700850075630605"
+
+}

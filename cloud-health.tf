@@ -48,8 +48,9 @@ resource "google_monitoring_alert_policy" "ft_iac_uptime_failure" {
     }
   }
 
-  notification_channels = [
-    "projects/pandeo-423613/notificationChannels/11184700850075630605"
-  ]
+ notification_channels = [
+#    "projects/pandeo-423613/notificationChannels/11184700850075630605"
+		var.notification_channels_url
+ ]
 
 }
