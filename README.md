@@ -1,7 +1,3 @@
----
-title: ft-iac Google Cloud Project Documentation
-layout: default
----
 # Google Cloud Project Documentation
 
 ## Project Overview
