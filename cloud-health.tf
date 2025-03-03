@@ -31,7 +31,7 @@ resource "google_monitoring_alert_policy" "ft_iac_uptime_failure" {
   conditions {
     display_name = "Failure of uptime check_id ft-iac-sRjoaKGSOpA"
     condition_threshold {
-      filter     = "resource.type = \"uptime_url\" AND metric.type = \"monitoring.googleapis.com/uptime_check/check_passed\" AND metric.labels.check_id = \"ft-iac-sRjoaKGSOpA\""
+      filter     = "resource.type = \"uptime_url\" AND metric.type = \"monitoring.googleapis.com/uptime_check/check_passed\""
       duration   = "60s"
       comparison = "COMPARISON_GT"
       threshold_value = 1
@@ -49,8 +49,6 @@ resource "google_monitoring_alert_policy" "ft_iac_uptime_failure" {
   }
 
  notification_channels = [
-#    "projects/pandeo-423613/notificationChannels/11184700850075630605"
 		var.notification_channels_url
  ]
-
 }
