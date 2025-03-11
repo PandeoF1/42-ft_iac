@@ -1,0 +1,11 @@
+steps:
+- name: 'gcr.io/pandeo-423613/packer'
+  id: 'init'
+  args:
+  - 'init'
+  - 'gcp.pkr.hcl'
+- name: 'gcr.io/pandeo-423613/packer'
+  id: 'build'
+  args:
+  - build
+  - gcp.pkr.hcl

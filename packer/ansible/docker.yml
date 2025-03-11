@@ -1,0 +1,66 @@
+---
+- name: Install Docker
+  hosts: all
+  become: true
+  vars:
+    docker_dir: "{{ playbook_dir }}/../docker"
+    remote_user: ubuntu
+    ubuntu_version: jammy
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install required packages
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ubuntu_version }} stable"
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+
+    - name: Install Docker Compose
+      apt:
+        name: docker-compose
+        state: present
+
+    - name: Start and enable Docker service
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Add user to Docker group
+      user:
+        name: "{{ remote_user }}"
+        groups: docker
+        append: yes
+    
+    - name: Copy Docker directory
+      copy:
+        src: "{{ docker_dir }}"
+        dest: /home/{{ remote_user }}
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+        mode: 0755
+
+    - name: Pull images using Docker Compose
+      community.docker.docker_compose_v2_pull:
+        project_src: "/home/{{ remote_user }}/docker"
+        include_deps: false
