@@ -4,15 +4,14 @@
   become: true
   vars:
     docker_dir: "{{ playbook_dir }}/../docker"
-    remote_user: ubuntu
     ubuntu_version: jammy
   tasks:
     - name: Update apt cache
-      apt:
-        update_cache: yes
+      ansible.builtin.apt:
+        update_cache: true
 
     - name: Install required packages
-      apt:
+      ansible.builtin.apt:
         name:
           - apt-transport-https
           - ca-certificates
@@ -21,44 +20,44 @@
         state: present
 
     - name: Add Docker GPG key
-      apt_key:
+      ansible.builtin.apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
         state: present
 
     - name: Add Docker repository
-      apt_repository:
+      ansible.builtin.apt_repository:
         repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ubuntu_version }} stable"
         state: present
 
     - name: Install Docker
-      apt:
+      ansible.builtin.apt:
         name: docker-ce
         state: present
 
     - name: Install Docker Compose
-      apt:
+      ansible.builtin.apt:
         name: docker-compose
         state: present
 
     - name: Start and enable Docker service
-      service:
+      ansible.builtin.service:
         name: docker
         state: started
         enabled: true
 
     - name: Add user to Docker group
-      user:
+      ansible.builtin.user:
         name: "{{ remote_user }}"
         groups: docker
-        append: yes
-    
+        append: true
+
     - name: Copy Docker directory
-      copy:
+      ansible.builtin.copy:
         src: "{{ docker_dir }}"
         dest: /home/{{ remote_user }}
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
-        mode: 0755
+        mode: "0755"
 
     - name: Pull images using Docker Compose
       community.docker.docker_compose_v2_pull:
