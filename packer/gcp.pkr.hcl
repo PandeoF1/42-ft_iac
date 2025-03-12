@@ -16,28 +16,40 @@ source "googlecompute" "ft-iac-template" {
   source_image = "ubuntu-2204-jammy-v20250305"
   credentials_file = "pandeo-423613-b63c6ccba88d.json"
   disk_size = 10
-  machine_type = "f1-micro"
+  machine_type = "e2-medium"
   ssh_username = "ubuntu"
   zone = "europe-west4-a"
   project_id = "pandeo-423613"
   preemptible = true # Low cost
   communicator = "ssh"
-  use_os_login = false
   omit_external_ip = false
-  use_internal_ip = false
+  use_internal_ip = true
   use_iap = true
 
-  network = "default"
-  subnetwork = "default"
+  network = "pandeo"
+  subnetwork = "pandeo"
 }
 
 build {
+  name = "ft-iac-template"
   sources = ["sources.googlecompute.ft-iac-template"]
   
   provisioner "ansible" {
-    playbook_file = "ansible/docker.yml"
+    playbook_file = "ansible/app.yml"
   }
   post-processor "manifest" {
-    output = "packer/manifest.json"
+    output = "manifest-app.json"
+  }
+}
+
+build {
+  name = "redis-insight"
+  sources = ["sources.googlecompute.ft-iac-template"]
+  
+  provisioner "ansible" {
+    playbook_file = "ansible/redis.yml"
+  }
+  post-processor "manifest" {
+    output = "manifest-redis.json"
   }
 }

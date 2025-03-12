@@ -3,7 +3,7 @@
   hosts: all
   become: true
   vars:
-    docker_dir: "{{ playbook_dir }}/../docker"
+    docker_dir: "{{ playbook_dir }}/../redis"
     ubuntu_version: jammy
   tasks:
     - name: Update apt cache
@@ -47,19 +47,24 @@
 
     - name: Add user to Docker group
       ansible.builtin.user:
-        name: "{{ remote_user }}"
+        name: "ubuntu"
         groups: docker
         append: true
 
     - name: Copy Docker directory
       ansible.builtin.copy:
         src: "{{ docker_dir }}"
-        dest: /home/{{ remote_user }}
-        owner: "{{ remote_user }}"
-        group: "{{ remote_user }}"
+        dest: /home/ubuntu
+        owner: "ubuntu"
+        group: "ubuntu"
         mode: "0755"
 
     - name: Pull images using Docker Compose
       community.docker.docker_compose_v2_pull:
-        project_src: "/home/{{ remote_user }}/docker"
+        project_src: "/home/ubuntu/redis"
         include_deps: false
+
+    - name: Start services using Docker Compose
+      community.docker.docker_compose_v2:
+        project_src: "/home/ubuntu/redis"
+        state: present

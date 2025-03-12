@@ -27,15 +27,9 @@ resource "google_sql_database_instance" "instance" {
   depends_on = [google_compute_network.vpc_network, google_service_networking_connection.private_vpc_connection]
 }
 
-resource "random_string" "random" {
-  length           = 16
-  special          = true
-  override_special = "/@£$"
-}
-
 resource "google_sql_user" "users" {
   name     = var.name
   instance = google_sql_database_instance.instance.name
   host     = "%"
-  password = random_string.random.result
+  password = random_string.sql_secret.result
 }

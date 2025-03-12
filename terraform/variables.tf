@@ -42,8 +42,7 @@ variable "cloud_run_size" {
     description = "The sizes of the instances"
     default = {
         small  = {
-            cpu = "1"
-            memory = "512Mi"
+            tier = "t1
         }
         medium = {
             cpu = "1"
