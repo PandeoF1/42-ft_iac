@@ -10,3 +10,4 @@ docker_image              = "xxxx"
 backups                   = false
 availability_type         = "ZONAL"
 notification_channels_url = "projects/xxxxx/notificationChannels/xxxxxx"
+cloudflare_api_token	  = "xxxxxxxxxxxxxxxxxxxxx"

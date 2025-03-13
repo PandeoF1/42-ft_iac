@@ -1,0 +1,31 @@
+---
+- name: Simple Ansible Playbook
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Update and upgrade apt packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Install necessary packages
+      apt:
+        name:
+          - git
+          - curl
+          - vim
+          - docker
+        state: present
+
+    # - name: Create a directory
+    #   file:
+    #     path: /home/example_directory
+    #     state: directory
+    #     mode: '0755'
+
+    # - name: Copy a file
+    #   copy:
+    #     src: /path/to/source/file
+    #     dest: /home/{{ ansible_user }}/example_directory/file
+    #     mode: '0644'

@@ -1,0 +1,6 @@
+project_id					="ft-iac"
+# source_image				="ubuntu-2004"
+source_image_family			="ubuntu-2004-lts"
+zone						="europe-west4-b"
+machine_type				="e2-micro"
+startup_script_file			=""
