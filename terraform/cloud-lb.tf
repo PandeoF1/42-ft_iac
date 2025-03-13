@@ -28,12 +28,14 @@ resource "google_compute_backend_service" "app_backend" {
   backend {
     group = google_compute_region_instance_group_manager.app_group.instance_group
   }
+  
+  session_affinity = var.session_under_redis ? null : "CLIENT_IP"
 }
 
 # Vérification de l'état de l'application
 resource "google_compute_http_health_check" "app_health_check" {
   name                = "${var.name}-health-check"
-  request_path        = "/login"
+  request_path        = "/health/liveness"
   port                = "3000"
   check_interval_sec  = 15
   timeout_sec         = 2

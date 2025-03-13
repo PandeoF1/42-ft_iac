@@ -144,3 +144,16 @@ variable "notification_channels_url" {
     type = string
     description = "The url of the notification channels"
 }
+
+variable "session_under_redis" {
+    type = bool
+    description = "Use Redis for session storage"
+    default = false
+  
+}
+
+variable "database_replicas" {
+    type = bool
+    description = "Use database replicas"
+    default = false
+}

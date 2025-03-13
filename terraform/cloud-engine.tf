@@ -40,12 +40,16 @@ resource "google_compute_instance_template" "app_template" {
           - MYSQL_HOST=${google_sql_database_instance.master.private_ip_address}
           - MYSQL_USER=${google_sql_user.users.name}
           - MYSQL_DATABASE=${google_sql_database.database.name}
-          - REDIS_HOST=${google_redis_instance.cache.host}
-          - REDIS_PORT=${google_redis_instance.cache.port}
           - NODE_ENV=production
           - SESSION_SECRET=${random_password.session_secret.result}
           - MYSQL_PASSWORD=${random_password.sql_secret.result}
     EOF
+
+    %{ if var.session_under_redis }
+    echo "      - REDIS_HOST=${google_redis_instance.cache[0].host}" >> /home/ubuntu/docker/docker-compose.yaml
+    echo "      - REDIS_PORT=${google_redis_instance.cache[0].port}" >> /home/ubuntu/docker/docker-compose.yaml
+    %{ endif }
+
     chown ubuntu:ubuntu /home/ubuntu/docker/docker-compose.yaml
     docker compose -f /home/ubuntu/docker/docker-compose.yaml up -d
     echo "Docker compose started"
@@ -63,9 +67,10 @@ resource "google_compute_health_check" "autohealing" {
   name                = "autohealing-health-check"
   check_interval_sec  = 15
   timeout_sec         = 2
-
+  unhealthy_threshold = 4
+  healthy_threshold   = 2
   http_health_check {
-    request_path = "/login"
+    request_path = "/health/readiness"
     port         = "3000"
   }
 

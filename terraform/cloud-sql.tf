@@ -25,7 +25,7 @@ resource "google_sql_database_instance" "master" {
 }
 
 resource "google_sql_database_instance" "replicas" {
-  for_each = toset(slice(var.area[var.region].zones, 1, length(var.area[var.region].zones))) # Skip the first zone
+  for_each = var.database_replicas ? toset(slice(var.area[var.region].zones, 1, length(var.area[var.region].zones))) : toset([])
 
   name                 = "${var.name}-replica-${each.value}"
   region               = var.area[var.region].region
