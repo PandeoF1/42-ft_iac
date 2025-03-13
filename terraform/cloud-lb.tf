@@ -1,54 +1,40 @@
-module "lb-http" {
-  source  = "terraform-google-modules/lb-http/google//modules/serverless_negs"
-  version = "~> 12.0"
+# Règle de transfert global
+resource "google_compute_global_forwarding_rule" "lb" {
+  name       = "${var.name}-lb"
+  target     = google_compute_target_http_proxy.app_proxy.self_link
+  port_range = "3000"
+}
 
-  name    = var.name
-  project = var.project_id
+# Proxy HTTP de l'application
+resource "google_compute_target_http_proxy" "app_proxy" {
+  name    = "${var.name}-proxy"
+  url_map = google_compute_url_map.app_url_map.self_link
+}
 
-  ssl                             = true
-  managed_ssl_certificate_domains = [var.domain] # Désactivé pour éviter un conflit avec Cloudflare
-  https_redirect                  = true
-  #certificate                     = cloudflare_origin_ca_certificate.default.certificate
+# Mappage des URL
+resource "google_compute_url_map" "app_url_map" {
+  name            = "${var.name}-url-map"
+  default_service = google_compute_backend_service.app_backend.self_link
+}
 
-  backends = {
-    default = {
-      protocol = "HTTP"
-      groups = [
-        {
-          group = google_compute_region_network_endpoint_group.default.id
-        }
-      ]
-      enable_cdn = false
-      iap_config = {
-        enable = false
-      }
-      log_config = {
-        enable = false
-      }
-    }
+# Backend service de l'application
+resource "google_compute_backend_service" "app_backend" {
+  name          = "${var.name}-backend"
+  port_name     = "http"
+  protocol      = "HTTP"
+  timeout_sec   = 30
+  health_checks = [google_compute_http_health_check.app_health_check.self_link]
+
+  backend {
+    group = google_compute_region_instance_group_manager.app_group.instance_group
   }
 }
 
-resource "google_compute_region_network_endpoint_group" "default" {
-  provider              = google-beta
-  name                  = var.name
-  network_endpoint_type = "SERVERLESS"
-  region                = var.regions[var.zone].region
-  cloud_run {
-    service = google_cloud_run_v2_service.default.name
-  }
-}
-
-resource "cloudflare_dns_record" "lb" {
-  zone_id = var.cloudflare_zone_id
-  comment = "Domain verification record"
-  content = module.lb-http.external_ip
-  name = var.domain
-  proxied = false
-  ttl = 1
-  type = "A"
-}
-
-output "external_url" {
-  value = module.lb-http.external_ip
+# Vérification de l'état de l'application
+resource "google_compute_http_health_check" "app_health_check" {
+  name                = "${var.name}-health-check"
+  request_path        = "/"
+  port                = "3000"
+  check_interval_sec  = 5
+  timeout_sec         = 5
 }

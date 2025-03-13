@@ -20,7 +20,7 @@ resource "google_secret_manager_secret" "secret_database" {
 
 resource "google_secret_manager_secret_version" "secret_database" {
   secret = google_secret_manager_secret.secret_database.name
-  secret_data = random_string.random.result
+  secret_data = random_string.session_secret.result
 }
 
 resource "google_secret_manager_secret" "secret_session" {

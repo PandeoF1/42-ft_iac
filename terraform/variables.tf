@@ -3,23 +3,28 @@ variable "name" {
   description = "The name of the service"
 }
 
-variable "zone" {
+variable "region" {
   type = string
   description = ""
   validation {
-    condition = var.zone != ""
+    condition = var.region != ""
     error_message = "Region must not be empty"
   }
 }
 
-variable "regions" {
+variable "area" {
     type = map(object({
         region = string
+        zones = list(string)
     }))
     description = "The list of regions to deploy resources"
     default = {
         EU = {
-            region = "europe-west4"
+            region = "europe-west1"
+            zones = [
+                "europe-west1-b",
+                "europe-west1-c",
+            ]
         },
     }
 }
@@ -34,23 +39,20 @@ variable "size" {
     }
 }
 
-variable "cloud_run_size" {
+variable "cloud_engine_size" {
     type = map(object({
-        cpu = string
-        memory = string
+        tier = string
     }))
     description = "The sizes of the instances"
     default = {
         small  = {
-            tier = "t1
+            tier = "f1-micro"
         }
         medium = {
-            cpu = "1"
-            memory = "1024Mi"
+            tier = "f1-micro"
         }
         large = {
-            cpu = "2"
-            memory = "2048Mi"
+            tier = "e2-medium"
         }
     }
 }
