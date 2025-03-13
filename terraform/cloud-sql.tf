@@ -60,7 +60,7 @@ resource "google_sql_user" "users" {
   name     = var.name
   instance = google_sql_database_instance.master.name
   host     = "%"
-  password = random_string.sql_secret.result
+  password = random_password.sql_secret.result
 }
 
 output "master_private_ip" {

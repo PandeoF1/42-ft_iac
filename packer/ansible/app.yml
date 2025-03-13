@@ -63,8 +63,3 @@
       community.docker.docker_compose_v2:
         project_src: "/home/ubuntu/docker"
         build: always
-
-    - name: Start services using Docker Compose
-      community.docker.docker_compose_v2:
-        project_src: "/home/ubuntu/docker"
-        state: present

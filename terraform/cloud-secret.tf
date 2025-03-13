@@ -1,15 +1,11 @@
-resource "random_string" "session_secret" {
+resource "random_password" "session_secret" {
   length           = 16
-  special          = true
-  override_special = "/@£$"
+  special          = false
 }
-
-resource "random_string" "sql_secret" {
+resource "random_password" "sql_secret" {
   length           = 16
-  special          = true
-  override_special = "/@£$"
+  special          = false
 }
-
 
 resource "google_secret_manager_secret" "secret_database" {
   secret_id = "${var.name}-database"
@@ -20,7 +16,7 @@ resource "google_secret_manager_secret" "secret_database" {
 
 resource "google_secret_manager_secret_version" "secret_database" {
   secret = google_secret_manager_secret.secret_database.name
-  secret_data = random_string.session_secret.result
+  secret_data = random_password.session_secret.result
 }
 
 resource "google_secret_manager_secret" "secret_session" {
@@ -32,7 +28,7 @@ resource "google_secret_manager_secret" "secret_session" {
 
 resource "google_secret_manager_secret_version" "secret_session" {
   secret = google_secret_manager_secret.secret_session.name
-  secret_data = random_string.session_secret.result
+  secret_data = random_password.session_secret.result
 }
 
 resource "google_secret_manager_secret_iam_member" "secret-session" {

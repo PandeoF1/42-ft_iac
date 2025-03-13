@@ -33,8 +33,12 @@ resource "google_compute_backend_service" "app_backend" {
 # Vérification de l'état de l'application
 resource "google_compute_http_health_check" "app_health_check" {
   name                = "${var.name}-health-check"
-  request_path        = "/"
+  request_path        = "/login"
   port                = "3000"
-  check_interval_sec  = 5
-  timeout_sec         = 5
+  check_interval_sec  = 15
+  timeout_sec         = 2
+}
+
+output "lb_ip" {
+  value = google_compute_global_forwarding_rule.lb.ip_address
 }

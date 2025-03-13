@@ -1,0 +1,33 @@
+$ gcloud iam service-accounts create packer \
+  --project pandeo-423613 \
+  --description="Packer Service Account" \
+  --display-name="Packer Service Account"
+
+$ gcloud projects add-iam-policy-binding pandeo-423613 \
+    --member=serviceAccount:packer@pandeo-423613.iam.gserviceaccount.com \
+    --role=roles/compute.instanceAdmin.v1
+
+$ gcloud projects add-iam-policy-binding pandeo-423613 \
+    --member=serviceAccount:packer@pandeo-423613.iam.gserviceaccount.com \
+    --role=roles/iam.serviceAccountUser
+
+$ gcloud projects add-iam-policy-binding pandeo-423613 \
+    --member=serviceAccount:packer@pandeo-423613.iam.gserviceaccount.com \
+    --role=roles/iap.tunnelResourceAccessor
+
+$ gcloud compute instances create INSTANCE-NAME \
+  --project pandeo-423613 \
+  --image-family ubuntu-2004-lts \
+  --image-project ubuntu-os-cloud \
+  --network YOUR_GCP_NETWORK \
+  --zone YOUR_GCP_ZONE \
+  --service-account=packer@pandeo-423613.iam.gserviceaccount.com \
+  --scopes="https://www.googleapis.com/auth/cloud-platform"
+
+
+Create service account with v1 enginge, service account user and iap tunnel user
+
+Install ansible community docker
+
+
+TRY DE USE LE MEME HEALTH CHECK POUR TOUT

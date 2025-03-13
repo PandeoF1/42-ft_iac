@@ -63,8 +63,3 @@
       community.docker.docker_compose_v2_pull:
         project_src: "/home/ubuntu/redis"
         include_deps: false
-
-    - name: Start services using Docker Compose
-      community.docker.docker_compose_v2:
-        project_src: "/home/ubuntu/redis"
-        state: present
