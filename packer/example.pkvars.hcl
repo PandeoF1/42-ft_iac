@@ -1,0 +1,10 @@
+source_image 					= "OS_EXAMPLE"
+credentials_file 				= "xxxxxxxxxx.json"
+zone 							= "xxxxxxxxxxx"
+machine_type 					= "xxxxxxxx"
+project_id 						= "xxxxxxxxxxxxxxxxx"
+network 						= "xxxxxxxxx"
+subnetwork 						= "xxxxxxxxx"
+disk_size						= 10
+playbook_file_redis				= "ansible/example_playbook.yml"
+playbook_file_app				= "ansible/example_playbook.yml"
