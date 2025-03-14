@@ -13,10 +13,10 @@ packer {
 
 source "googlecompute" "ft-iac-template" {
   #source_image_family = "ubuntu-2204-lts"
-  source_image = var.source_image
+  source_image = "ubuntu-2204-jammy-v20250305"
   credentials_file = var.credentials_file
-  disk_size = var.disk_size
-  machine_type = var.machine_type
+  disk_size = 10
+  machine_type = "e2-medium"
   ssh_username = "ubuntu"
   zone = var.zone
   project_id = var.project_id
@@ -32,10 +32,10 @@ source "googlecompute" "ft-iac-template" {
 
 source "googlecompute" "redis-insight-template" {
   #source_image_family = "ubuntu-2204-lts"
-  source_image = var.source_image
+  source_image = "ubuntu-2204-jammy-v20250305"
   credentials_file = var.credentials_file
-  disk_size = var.disk_size
-  machine_type = var.machine_type
+  disk_size = 10
+  machine_type = "e2-medium"
   ssh_username = "ubuntu"
   zone = var.zone
   project_id = var.project_id
@@ -54,7 +54,7 @@ build {
   sources = ["sources.googlecompute.ft-iac-template"]
   
   provisioner "ansible" {
-    playbook_file = var.playbook_file_app
+    playbook_file = "ansible/app.yml"
   }
   post-processor "manifest" {
     output = "manifest-app.json"
@@ -66,7 +66,7 @@ build {
   sources = ["sources.googlecompute.redis-insight-template"]
   
   provisioner "ansible" {
-    playbook_file = var.playbook_file_redis
+    playbook_file = "ansible/redis.yml"
   }
   post-processor "manifest" {
     output = "manifest-redis.json"
@@ -79,11 +79,6 @@ variable "project_id" {
   description = "Google Cloud Project ID"
 }
 
-variable "source_image" {
-  type        = string
-  description = "Source image to use for the instance"
-}
-
 variable "credentials_file" {
   type        = string
   description = "Path to the Google Cloud credentials file"
@@ -91,12 +86,6 @@ variable "credentials_file" {
 variable "zone" {
   type        = string
   description = "Zone to deploy the instance"
-}
-
-
-variable "machine_type" {
-  type        = string
-  description = "Machine type to use for the instance"
 }
 
 variable "network" {
@@ -109,20 +98,4 @@ variable "subnetwork"{
 	type = string
 	description = "Subnetwork"
 	default = "default"
-}
-
-variable "disk_size" {
-  type        = number
-  description = "Disk size in GB"
-  default = 10
-}
-
-variable "playbook_file_redis"{
-	type = string
-	description = "Path to the playbook file for redis"
-}
-
-variable "playbook_file_app"{
-	type = string
-	description = "Path to the playbook file for app"
 }
