@@ -1,0 +1,5 @@
+credentials_file 				= "xxxxxxxxxx.json"
+zone 							= "xxxxxxxxxxx"
+project_id 						= "xxxxxxxxxxxxxxxxx"
+network 						= "xxxxxxxxx"
+subnetwork 						= "xxxxxxxxx"

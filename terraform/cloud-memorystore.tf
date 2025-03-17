@@ -1,4 +1,6 @@
 resource "google_redis_instance" "cache" {
+  # Only if session_under_redis is true
+  count          = var.session_under_redis ? 1 : 0
   name           = var.name
   memory_size_gb = 1
 
@@ -12,5 +14,5 @@ resource "google_redis_instance" "cache" {
 }
 
 output "redis_host" {
-  value = "${google_redis_instance.cache.host}:${google_redis_instance.cache.port}"
+  value = var.session_under_redis ? "${google_redis_instance.cache[0].host}:${google_redis_instance.cache[0].port}" : ""
 }

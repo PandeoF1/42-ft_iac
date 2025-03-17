@@ -1,0 +1,13 @@
+name                      = "ft-iac"
+region                    = "EU"
+size                      = "medium"
+replicas                  = 2
+project_id                = "pandeo-423613"
+deletion_protection       = false
+domain                    = "ft-iac.pandeo.fr"
+cloudflare_zone_id        = "5291d9d7f423a1902129008a519239bf"
+docker_image              = "docker.io/pandeo/ft-iac:27595"
+backups                   = true
+availability_type         = "REGIONAL"
+notification_channels_url = "projects/pandeo-423613/notificationChannels/11184700850075630605"
+session_under_redis       = true

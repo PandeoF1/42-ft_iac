@@ -1,0 +1,5 @@
+credentials_file 				= "pandeo-423613-b63c6ccba88d.json"
+zone 							= "europe-west1-b"
+project_id 						= "pandeo-423613"
+network 						= "pandeo"
+subnetwork 						= "pandeo"

@@ -1,25 +1,40 @@
+locals {
+  timestamp = "${timestamp()}"
+  timestamp_no_hyphens = "${replace("${local.timestamp}", "-", "")}"
+  timestamp_no_spaces = "${replace("${local.timestamp_no_hyphens}", " ", "")}"
+  timestamp_no_t = "${replace("${local.timestamp_no_spaces}", "T", "")}"
+  timestamp_no_z = "${replace("${local.timestamp_no_t}", "Z", "")}"
+  timestamp_no_colons = "${replace("${local.timestamp_no_z}", ":", "")}"
+  timestamp_sanitized = "${local.timestamp_no_colons}"
+}
+
 variable "name" {
   type = string
   description = "The name of the service"
 }
 
-variable "zone" {
+variable "region" {
   type = string
   description = ""
   validation {
-    condition = var.zone != ""
+    condition = var.region != ""
     error_message = "Region must not be empty"
   }
 }
 
-variable "regions" {
+variable "area" {
     type = map(object({
         region = string
+        zones = list(string)
     }))
     description = "The list of regions to deploy resources"
     default = {
         EU = {
-            region = "europe-west4"
+            region = "europe-west1"
+            zones = [
+                "europe-west1-b",
+                "europe-west1-c",
+            ]
         },
     }
 }
@@ -34,24 +49,20 @@ variable "size" {
     }
 }
 
-variable "cloud_run_size" {
+variable "cloud_engine_size" {
     type = map(object({
-        cpu = string
-        memory = string
+        tier = string
     }))
     description = "The sizes of the instances"
     default = {
         small  = {
-            cpu = "1"
-            memory = "512Mi"
+            tier = "f1-micro"
         }
         medium = {
-            cpu = "1"
-            memory = "1024Mi"
+            tier = "f1-micro"
         }
         large = {
-            cpu = "2"
-            memory = "2048Mi"
+            tier = "e2-medium"
         }
     }
 }
@@ -132,4 +143,17 @@ variable "cloudflare_zone_id" {
 variable "notification_channels_url" {
     type = string
     description = "The url of the notification channels"
+}
+
+variable "session_under_redis" {
+    type = bool
+    description = "Use Redis for session storage"
+    default = false
+  
+}
+
+variable "database_replicas" {
+    type = bool
+    description = "Use database replicas"
+    default = false
 }
