@@ -53,7 +53,7 @@ build {
   name = "ft-iac-template"
   sources = ["sources.googlecompute.ft-iac-template"]
   provisioner "file" {
-    source      = "docker"
+    source      = "app"
     destination = "/home/ubuntu/docker"
   }
   provisioner "shell" {

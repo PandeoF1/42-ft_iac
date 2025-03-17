@@ -28,7 +28,7 @@ resource "google_compute_instance_template" "app_template" {
   metadata_startup_script = <<-EOT
     #! /bin/bash
     cat <<EOF > /home/ubuntu/docker/docker-compose.yaml
-    services:
+    services:`
       app:
         build:
           context: .
