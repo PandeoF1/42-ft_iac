@@ -52,9 +52,18 @@ source "googlecompute" "redis-insight-template" {
 build {
   name = "ft-iac-template"
   sources = ["sources.googlecompute.ft-iac-template"]
-  
-  provisioner "ansible" {
-    playbook_file = "ansible/app.yml"
+  provisioner "file" {
+    source      = "docker"
+    destination = "/home/ubuntu/docker"
+  }
+  provisioner "shell" {
+    inline = [
+      "sudo apt-get update",
+      "curl -fsSL https://get.docker.com -o get-docker.sh",
+      "sudo sh get-docker.sh",
+      "sudo usermod -aG docker ubuntu",
+      "sudo docker compose -f /home/ubuntu/docker/docker-compose.yaml build",
+    ]
   }
   post-processor "manifest" {
     output = "manifest-app.json"
@@ -65,8 +74,18 @@ build {
   name = "redis-insight"
   sources = ["sources.googlecompute.redis-insight-template"]
   
-  provisioner "ansible" {
-    playbook_file = "ansible/redis.yml"
+  provisioner "file" {
+    source      = "redis"
+    destination = "/home/ubuntu/docker"
+  }
+  provisioner "shell" {
+    inline = [
+      "sudo apt-get update",
+      "curl -fsSL https://get.docker.com -o get-docker.sh",
+      "sudo sh get-docker.sh",
+      "sudo usermod -aG docker ubuntu",
+      "sudo docker compose -f /home/ubuntu/docker/docker-compose.yaml pull",
+    ]
   }
   post-processor "manifest" {
     output = "manifest-redis.json"

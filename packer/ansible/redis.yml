@@ -2,6 +2,7 @@
 - name: Install Docker
   hosts: all
   become: true
+  remote_user: ubuntu
   vars:
     docker_dir: "{{ playbook_dir }}/../redis"
     ubuntu_version: jammy
