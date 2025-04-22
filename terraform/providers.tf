@@ -8,11 +8,13 @@ terraform {
 }
 
 provider "google" {
+  credentials = file("../gcp.json")
   project     = var.project_id
   region      = var.area[var.region].region
 }
 
 provider "google-beta" {
+  credentials = file("../gcp.json")
   project     = var.project_id
   region      = var.area[var.region].region
 }

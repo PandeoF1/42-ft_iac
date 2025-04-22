@@ -124,11 +124,6 @@ variable "availability_type" {
     }
 }
 
-variable "docker_image" {
-    type = string
-    description = "The docker image"
-}
-
 variable "cloudflare_api_token" {
     type = string
     description = "The Cloudflare API token"
