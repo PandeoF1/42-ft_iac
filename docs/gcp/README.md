@@ -12,6 +12,7 @@
    - `Service Account User`
    - `Compute Admin`
    - `Create Service Accounts`
+   - `Delete Service Accounts`
    - `Secret manager admin`
    - `Service Networking Admin`
    - `Cloud SQL Admin`

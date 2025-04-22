@@ -4,13 +4,14 @@ resource "google_service_account" "app_sa" {
 }
 
 resource "google_compute_instance_template" "app_template" {
-  name         = "${var.name}-template"#-${local.timestamp_sanitized}" # Remove timestamp after test
+  # name         = "${var.name}-template"#-${local.timestamp_sanitized}" # Remove timestamp after test
+  name         = "${var.name}-template-${local.timestamp_sanitized}"
   machine_type = var.cloud_engine_size[var.size].tier
 
   tags = ["http-server", "https-server", "ssh-enabled"] # Ajout des tags pour autoriser HTTP et HTTPS
 
-  disk {
-    source_image = "ft-iac-1741789784"
+  disk {# For the source image get ../terraform/packer/manifest-app.json -> builds -> latest -> artifact_id
+    source_image = jsondecode(file("../packer/manifest-app.json")).builds[0].artifact_id
     auto_delete  = true
     boot         = true
   }
@@ -28,15 +29,16 @@ resource "google_compute_instance_template" "app_template" {
   metadata_startup_script = <<-EOT
     #! /bin/bash
     cat <<EOF > /home/ubuntu/docker/docker-compose.yaml
-    services:`
+    services:
       app:
         build:
           context: .
           dockerfile: Dockerfile
         restart: always
         ports:
-          - "3000:3000"
+          - "3000:3000" 
         environment:
+          - DB_INIT_SYNC=true
           - MYSQL_HOST=${google_sql_database_instance.master.private_ip_address}
           - MYSQL_USER=${google_sql_user.users.name}
           - MYSQL_DATABASE=${google_sql_database.database.name}
