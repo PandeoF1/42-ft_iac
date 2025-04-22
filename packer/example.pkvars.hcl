@@ -1,4 +1,4 @@
-credentials_file 				= "xxxxxxxxxx.json"
+credentials_file 				= "../gcp.json"
 zone 							= "xxxxxxxxxxx"
 project_id 						= "xxxxxxxxxxxxxxxxx"
 network 						= "xxxxxxxxx"
