@@ -4,8 +4,8 @@ resource "google_service_account" "app_sa" {
 }
 
 resource "google_compute_instance_template" "app_template" {
-  # name         = "${var.name}-template"#-${local.timestamp_sanitized}" # Remove timestamp after test
-  name         = "${var.name}-template-${local.timestamp_sanitized}"
+  name         = "${var.name}-template"
+  # name         = "${var.name}-template-${local.timestamp_sanitized}"
   machine_type = var.cloud_engine_size[var.size].tier
 
   tags = ["http-server", "https-server", "ssh-enabled"] # Ajout des tags pour autoriser HTTP et HTTPS
